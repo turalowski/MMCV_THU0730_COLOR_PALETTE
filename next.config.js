@@ -1,7 +1,15 @@
+const withLess = require('next-with-less');
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-}
-
-module.exports = nextConfig
+module.exports = withLess({
+  lessLoaderOptions: {
+    lessOptions: {
+      modifyVars: {
+        // Add variables here
+        'font-family': 'Quicksand, sans-serif',
+      },
+    },
+  },
+  compiler: {
+    styledComponents: true,
+  },
+});
