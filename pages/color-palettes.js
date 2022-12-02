@@ -24,13 +24,14 @@ export default function Home() {
   useEffect(() => {
     const colorItems = Array(50)
       .fill()
-      .map(() => {
+      .map((item, index) => {
         return (
-          <div className={styles.colorsContainer}>
+          <div key={index} className={styles.colorsContainer}>
             {[0, 1, 2, 3].map((_, index) => {
               const color = materialColor();
               return (
                 <div
+                  key={index}
                   className={styles.colorContainer}
                   style={{
                     height:
