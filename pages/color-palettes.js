@@ -1,23 +1,10 @@
 import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.css';
-import { Layout, Menu, message } from 'antd';
+import { Layout, message } from 'antd';
 import { materialColor } from '../utils/constant';
+import { Header } from '../components/Header';
 
-const { Header, Content } = Layout;
-const items = [
-  {
-    label: 'Color palettes',
-    key: '1',
-  },
-  {
-    label: 'Convert color formats',
-    key: '2',
-  },
-  {
-    label: 'Pick color',
-    key: '3',
-  },
-];
+const { Content } = Layout;
 export default function Home() {
   const [colors, setColors] = useState([]);
 
@@ -65,17 +52,8 @@ export default function Home() {
   }, []);
   return (
     <div className={styles.container}>
-      <Layout style={{ backgroundColor: '#7f669d' }}>
-        <Header style={{ backgroundColor: '#7f669d', marginLeft: 'auto' }}>
-          <div className="logo" />
-          <Menu
-            style={{ backgroundColor: '#7f669d' }}
-            theme="light"
-            mode="horizontal"
-            activeKey={'1'}
-            items={items}
-          />
-        </Header>
+      <Layout>
+        <Header />
         <Content
           style={{
             padding: '0 50px',
@@ -88,7 +66,8 @@ export default function Home() {
           <div
             style={{
               display: 'flex',
-              gap: '10px',
+              padding: '0 100px',
+              gap: '20px',
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
