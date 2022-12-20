@@ -1,8 +1,10 @@
 import { Header } from '../components/Header';
 import { Input, Layout } from 'antd';
 import { useState } from 'react';
-
+import { validateHTMLColorRgb } from 'validate-color';
 const { Content } = Layout;
+
+var convert = require('color-convert');
 
 export default function ColorConversion() {
   /*
@@ -12,7 +14,10 @@ hex: ""
 
 }
   */
-  const [colors, setColors] = useState({ hex: '#fff' });
+  const [colors, setColors] = useState({
+    hex: '#eeeee4',
+    rgb: 'rgb(238, 238, 228)',
+  });
   return (
     <Layout style={{ height: '100vh' }}>
       <Header />
@@ -41,7 +46,31 @@ hex: ""
             addonBefore="RGB"
             value={colors.rgb}
             size="large"
-            style={{ color: 'black' }}
+            onChange={event => {
+              const isValid = validateHTMLColorRgb(event.target.value);
+              if (!isValid) {
+                setColors(prevColors => {
+                  return {
+                    ...prevColors,
+                    rgb: event.target.value,
+                  };
+                });
+
+                return;
+              }
+              const [r, g, b] = event.target.value
+                .replace('rgb(', '')
+                .replace(')', '')
+                .split(',');
+              const hex = convert.rgb.hex(Number(r), Number(g), Number(b));
+              setColors(() => {
+                return {
+                  rgb: event.target.value,
+                  hex: `#${hex}`,
+                };
+              });
+            }}
+            style={{ marginBottom: '20px' }}
           />
           <Input addonBefore="HEX" value={colors.hex} size="large" />
         </div>

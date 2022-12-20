@@ -4,14 +4,27 @@ import { Layout, message } from 'antd';
 import { materialColor } from '../utils/constant';
 import { Header } from '../components/Header';
 
+var ColorScheme = require('color-scheme');
+
 const { Content } = Layout;
+
 export default function Home() {
   const [colors, setColors] = useState([]);
 
   useEffect(() => {
-    const colorItems = Array(50)
+    const colorItems = Array(24)
       .fill()
       .map((item, index) => {
+        var scheme = new ColorScheme();
+        scheme
+          .from_hue(index * 50) // Start the scheme
+          .scheme('triade') // Use the 'triade' scheme, that is, colors
+          // selected from 3 points equidistant around
+          // the color wheel.
+          .variation('soft'); // Use the 'soft' color variation
+
+        var colors = scheme.colors();
+
         return (
           <div key={index} className={styles.colorsContainer}>
             {[0, 1, 2, 3].map((_, index) => {
@@ -29,7 +42,9 @@ export default function Home() {
                         : index === 2
                         ? '100px'
                         : '70px',
-                    backgroundColor: color,
+                    backgroundColor: `#${
+                      colors[index === 1 ? index + 5 : index]
+                    }`,
                   }}
                 >
                   <div
