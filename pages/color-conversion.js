@@ -1,7 +1,7 @@
 import { Header } from '../components/Header';
 import { Input, Layout } from 'antd';
 import { useState } from 'react';
-import { validateHTMLColorRgb } from 'validate-color';
+import { validateHTMLColorHex, validateHTMLColorRgb } from 'validate-color';
 const { Content } = Layout;
 
 var convert = require('color-convert');
@@ -72,7 +72,31 @@ hex: ""
             }}
             style={{ marginBottom: '20px' }}
           />
-          <Input addonBefore="HEX" value={colors.hex} size="large" />
+          <Input
+            addonBefore="HEX"
+            value={colors.hex}
+            onChange={event => {
+              const isValid = validateHTMLColorHex(event.target.value);
+              if (!isValid) {
+                setColors(prevColors => {
+                  return {
+                    ...prevColors,
+                    hex: event.target.value,
+                  };
+                });
+              }
+              const [r, g, b] = convert.hex.rgb(event.target.value);
+              const rgb = `rgb(${r}, ${g}, ${b})`;
+              setColors(prevColors => {
+                return {
+                  ...prevColors,
+                  hex: event.target.value,
+                  rgb,
+                };
+              });
+            }}
+            size="large"
+          />
         </div>
       </Content>
     </Layout>
